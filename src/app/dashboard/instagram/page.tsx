@@ -88,7 +88,7 @@ export default async function InstagramPage() {
             data={summary.chartData}
             xKey="date"
             series={[{ key: "Seguidores", label: "Seguidores" }]}
-            valueFormatter={formatNumber}
+            valueFormatter="number"
           />
         </ChartCard>
 
@@ -106,7 +106,7 @@ export default async function InstagramPage() {
             data={summary.topReels}
             xKey="title"
             valueKey="views"
-            valueFormatter={formatNumber}
+            valueFormatter="number"
           />
         </ChartCard>
       </div>

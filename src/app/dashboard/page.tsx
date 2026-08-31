@@ -83,7 +83,7 @@ export default async function DashboardOverviewPage() {
             data={ig.chartData}
             xKey="date"
             series={[{ key: "Seguidores", label: "Seguidores" }]}
-            valueFormatter={formatNumber}
+            valueFormatter="number"
           />
         </ChartCard>
         <ChartCard
@@ -91,12 +91,12 @@ export default async function DashboardOverviewPage() {
           data={biz.profitByMonth}
           columns={[
             { key: "month", label: "Mes" },
-            { key: "profit", label: "Ganancia", align: "right", format: (v) => formatCurrency(v) },
+            { key: "profit", label: "Ganancia", align: "right", format: "currency" },
           ]}
           height={220}
           empty="Registra tu primera venta para ver tu ganancia."
         >
-          <SignedBarChart data={biz.profitByMonth} xKey="month" valueKey="profit" valueFormatter={formatCurrency} />
+          <SignedBarChart data={biz.profitByMonth} xKey="month" valueKey="profit" valueFormatter="currency" />
         </ChartCard>
       </div>
 

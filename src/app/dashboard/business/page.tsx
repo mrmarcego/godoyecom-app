@@ -91,11 +91,11 @@ export default async function BusinessPage() {
           data={summary.profitByMonth}
           columns={[
             { key: "month", label: "Mes" },
-            { key: "profit", label: "Ganancia", align: "right", format: (v) => formatCurrencyPrecise(v) },
+            { key: "profit", label: "Ganancia", align: "right", format: "currencyPrecise" },
           ]}
           empty="Registra ventas para ver tu ganancia por mes."
         >
-          <SignedBarChart data={summary.profitByMonth} xKey="month" valueKey="profit" valueFormatter={formatCurrency} />
+          <SignedBarChart data={summary.profitByMonth} xKey="month" valueKey="profit" valueFormatter="currency" />
         </ChartCard>
 
         <ChartCard
@@ -104,7 +104,7 @@ export default async function BusinessPage() {
           data={paymentData}
           columns={[
             { key: "methodLabel", label: "Método" },
-            { key: "total", label: "Total", align: "right", format: (v) => formatCurrencyPrecise(v) },
+            { key: "total", label: "Total", align: "right", format: "currencyPrecise" },
           ]}
           empty="Registra ventas para ver el desglose por método de pago."
         >
@@ -112,7 +112,7 @@ export default async function BusinessPage() {
             data={paymentData}
             xKey="methodLabel"
             valueKey="total"
-            valueFormatter={formatCurrency}
+            valueFormatter="currency"
             colorKey="method"
             colorMap={PAYMENT_METHOD_COLORS}
             layout="horizontal"
@@ -127,12 +127,12 @@ export default async function BusinessPage() {
           data={summary.topProducts}
           columns={[
             { key: "name", label: "Producto" },
-            { key: "profit", label: "Ganancia", align: "right", format: (v) => formatCurrencyPrecise(v) },
+            { key: "profit", label: "Ganancia", align: "right", format: "currencyPrecise" },
           ]}
           height={260}
           empty="Registra ventas para ver tus productos más rentables."
         >
-          <RankingBarChart data={summary.topProducts} xKey="name" valueKey="profit" valueFormatter={formatCurrency} />
+          <RankingBarChart data={summary.topProducts} xKey="name" valueKey="profit" valueFormatter="currency" />
         </ChartCard>
       </div>
 

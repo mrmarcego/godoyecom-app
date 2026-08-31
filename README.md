@@ -1,5 +1,26 @@
 # Godoyecom App
 
+## Estado actual
+
+✅ **La base de datos ya está creada y conectada** — proyecto de Supabase
+"mrmarcego's Project", con las 6 tablas, la seguridad (cada estudiante solo
+ve lo suyo) y las funciones ya aplicadas y revisadas. No necesitas tocar el
+paso 1 de esta guía.
+
+✅ El archivo `.env.local` con tus datos reales ya viene incluido en este
+zip — no necesitas copiar `.env.example`.
+
+⚠️ Solo falta **un valor que solo tú puedes ver**: la `service_role key`.
+Está marcada como `PEGA-AQUI-TU-SERVICE-ROLE-KEY` dentro de `.env.local`.
+Sácala del panel de Supabase → **Project Settings → API** → sección
+**service_role** (dice "secret", con un botón "Reveal") → pégala ahí,
+reemplazando ese texto.
+
+⚠️ Falta publicar la app para que tenga un link público — ver la sección
+**5. Publicar la app** más abajo.
+
+---
+
 Plataforma privada para los estudiantes de Godoyecom. Tiene dos vistas:
 
 - **Estudiantes**: cada quien crea su cuenta, carga sus métricas de Instagram
@@ -34,6 +55,9 @@ copiar y pegar.
 
 ## 1. Crear el proyecto en Supabase
 
+> **Ya hecho.** Esta sección queda como referencia por si en el futuro
+> necesitan recrear algo o entender cómo está armada la base de datos.
+
 1. Entra a [supabase.com](https://supabase.com) → **New project**.
 2. Ponle un nombre (ej. "Godoyecom") y una contraseña de base de datos (guárdala).
 3. Cuando el proyecto esté listo, ve a **SQL Editor** → **New query**.
@@ -65,8 +89,14 @@ En **Authentication → Providers → Email** de Supabase hay una opción
 
 ## 2. Configurar las variables de entorno
 
-En la raíz del proyecto, copia `.env.example` a un archivo nuevo llamado
-`.env.local` y completa los valores:
+> **Ya hecho, excepto un valor.** El archivo `.env.local` ya viene en este
+> zip con la URL y la anon key reales. Solo te falta pegar la
+> `service_role key` (ver "Estado actual" arriba) y, si quieres, cambiar el
+> `ADMIN_SIGNUP_CODE` que ya generé por uno propio.
+
+Si en algún momento necesitas hacerlo desde cero: en la raíz del proyecto,
+copia `.env.example` a un archivo nuevo llamado `.env.local` y completa los
+valores:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://TU-PROYECTO.supabase.co

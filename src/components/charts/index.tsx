@@ -18,7 +18,7 @@ import {
 } from "recharts";
 import { ArrowUpRight, ArrowDownRight, Minus, TableProperties, LineChart as LineChartIcon } from "lucide-react";
 import { Card, CardBody } from "@/components/ui";
-import { cn, formatCompactNumber, formatCurrency, formatNumber } from "@/lib/utils";
+import { cn, formatCompactNumber, formatCurrency, formatCurrencyPrecise, formatNumber } from "@/lib/utils";
 import type { PaymentMethod } from "@/lib/types";
 
 /* ------------------------------------------------------------------------ */
@@ -166,11 +166,23 @@ export function Sparkline({
 /*  ChartCard — envoltorio con superficie oscura de marca + vista de tabla   */
 /* ------------------------------------------------------------------------ */
 
+// Los Server Components de este proyecto no pueden pasar funciones como
+// props a este archivo (es "use client"), así que el formato de cada
+// columna/serie se elige por nombre y se resuelve aquí adentro.
+export type FormatterKey = "currency" | "currencyPrecise" | "number" | "compact";
+
+const FORMATTERS: Record<FormatterKey, (v: any) => string> = {
+  currency: formatCurrency,
+  currencyPrecise: formatCurrencyPrecise,
+  number: formatNumber,
+  compact: formatCompactNumber,
+};
+
 export interface ChartColumn {
   key: string;
   label: string;
   align?: "left" | "right";
-  format?: (value: any, row: any) => string;
+  format?: FormatterKey;
 }
 
 export function ChartCard({
@@ -249,7 +261,7 @@ export function ChartCard({
                           c.align === "right" ? "text-right" : "text-left"
                         )}
                       >
-                        {c.format ? c.format(row[c.key], row) : String(row[c.key] ?? "—")}
+                        {c.format ? FORMATTERS[c.format](row[c.key]) : String(row[c.key] ?? "—")}
                       </td>
                     ))}
                   </tr>
@@ -304,15 +316,16 @@ export function TrendLineChart({
   data,
   xKey,
   series,
-  valueFormatter = formatCompactNumber,
+  valueFormatter = "compact",
   area = false,
 }: {
   data: any[];
   xKey: string;
   series: SeriesSpec[];
-  valueFormatter?: (v: number) => string;
+  valueFormatter?: FormatterKey;
   area?: boolean;
 }) {
+  const formatFn = FORMATTERS[valueFormatter] ?? formatCompactNumber;
   const Chart = area ? AreaChart : LineChart;
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -328,10 +341,10 @@ export function TrendLineChart({
           tick={{ fill: DARK.muted, fontSize: 12 }}
           axisLine={false}
           tickLine={false}
-          tickFormatter={valueFormatter}
+          tickFormatter={formatFn}
           width={44}
         />
-        <Tooltip content={<DarkTooltip valueFormatter={valueFormatter} />} />
+        <Tooltip content={<DarkTooltip valueFormatter={formatFn} />} />
         {series.length > 1 && (
           <Legend
             wrapperStyle={{ fontSize: 12, color: DARK.textSecondary }}
@@ -380,7 +393,7 @@ export function RankingBarChart({
   data,
   xKey,
   valueKey,
-  valueFormatter = formatCompactNumber,
+  valueFormatter = "compact",
   colorKey,
   colorMap,
   layout = "vertical", // "vertical" = barras horizontales (recharts layout vertical)
@@ -388,11 +401,12 @@ export function RankingBarChart({
   data: any[];
   xKey: string;
   valueKey: string;
-  valueFormatter?: (v: number) => string;
+  valueFormatter?: FormatterKey;
   colorKey?: string;
   colorMap?: Record<string, string>;
   layout?: "vertical" | "horizontal";
 }) {
+  const formatFn = FORMATTERS[valueFormatter] ?? formatCompactNumber;
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
@@ -404,7 +418,7 @@ export function RankingBarChart({
         <CartesianGrid horizontal={layout !== "vertical"} vertical={layout === "vertical"} stroke={DARK.grid} />
         {layout === "vertical" ? (
           <>
-            <XAxis type="number" tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={valueFormatter} />
+            <XAxis type="number" tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={formatFn} />
             <YAxis
               type="category"
               dataKey={xKey}
@@ -417,10 +431,10 @@ export function RankingBarChart({
         ) : (
           <>
             <XAxis dataKey={xKey} tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={{ stroke: DARK.baseline }} tickLine={false} />
-            <YAxis tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={valueFormatter} width={44} />
+            <YAxis tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={formatFn} width={44} />
           </>
         )}
-        <Tooltip content={<DarkTooltip valueFormatter={valueFormatter} />} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
+        <Tooltip content={<DarkTooltip valueFormatter={formatFn} />} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
         <Bar dataKey={valueKey} radius={layout === "vertical" ? [0, 4, 4, 0] : [4, 4, 0, 0]} maxBarSize={24}>
           {data.map((row, i) => (
             <Cell
@@ -446,20 +460,21 @@ export function SignedBarChart({
   data,
   xKey,
   valueKey,
-  valueFormatter = formatCurrency,
+  valueFormatter = "currency",
 }: {
   data: any[];
   xKey: string;
   valueKey: string;
-  valueFormatter?: (v: number) => string;
+  valueFormatter?: FormatterKey;
 }) {
+  const formatFn = FORMATTERS[valueFormatter] ?? formatCurrency;
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }} barCategoryGap={10}>
         <CartesianGrid vertical={false} stroke={DARK.grid} />
         <XAxis dataKey={xKey} tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={{ stroke: DARK.baseline }} tickLine={false} />
-        <YAxis tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={valueFormatter} width={52} />
-        <Tooltip content={<DarkTooltip valueFormatter={valueFormatter} />} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
+        <YAxis tick={{ fill: DARK.muted, fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={formatFn} width={52} />
+        <Tooltip content={<DarkTooltip valueFormatter={formatFn} />} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
         <Bar dataKey={valueKey} radius={[4, 4, 4, 4]} maxBarSize={24}>
           {data.map((row, i) => (
             <Cell key={i} fill={row[valueKey] >= 0 ? STATUS.good : STATUS.critical} />

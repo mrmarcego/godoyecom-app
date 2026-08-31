@@ -74,11 +74,11 @@ export default async function AdminOverviewPage() {
           data={topStudents}
           columns={[
             { key: "name", label: "Estudiante" },
-            { key: "profit", label: "Ganancia", align: "right", format: (v) => formatCurrency(v) },
+            { key: "profit", label: "Ganancia", align: "right", format: "currency" },
           ]}
           empty="Todavía no hay ventas registradas por los estudiantes."
         >
-          <RankingBarChart data={topStudents} xKey="name" valueKey="profit" valueFormatter={formatCurrency} />
+          <RankingBarChart data={topStudents} xKey="name" valueKey="profit" valueFormatter="currency" />
         </ChartCard>
 
         <Card>

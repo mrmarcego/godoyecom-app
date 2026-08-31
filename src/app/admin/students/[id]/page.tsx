@@ -20,7 +20,6 @@ import {
 import { summarizeInstagram, summarizeBusiness } from "@/lib/metrics";
 import {
   formatCurrency,
-  formatCurrencyPrecise,
   formatNumber,
   formatDateTime,
 } from "@/lib/utils";
@@ -137,7 +136,7 @@ export default async function AdminStudentDetailPage({
             data={ig.chartData}
             xKey="date"
             series={[{ key: "Seguidores", label: "Seguidores" }]}
-            valueFormatter={formatNumber}
+            valueFormatter="number"
           />
         </ChartCard>
         <ChartCard
@@ -149,7 +148,7 @@ export default async function AdminStudentDetailPage({
           ]}
           empty="Este estudiante todavía no ha registrado reels."
         >
-          <RankingBarChart data={ig.topReels} xKey="title" valueKey="views" valueFormatter={formatNumber} />
+          <RankingBarChart data={ig.topReels} xKey="title" valueKey="views" valueFormatter="number" />
         </ChartCard>
       </div>
 
@@ -159,18 +158,18 @@ export default async function AdminStudentDetailPage({
           data={biz.profitByMonth}
           columns={[
             { key: "month", label: "Mes" },
-            { key: "profit", label: "Ganancia", align: "right", format: (v) => formatCurrencyPrecise(v) },
+            { key: "profit", label: "Ganancia", align: "right", format: "currencyPrecise" },
           ]}
           empty="Este estudiante todavía no ha registrado ventas."
         >
-          <SignedBarChart data={biz.profitByMonth} xKey="month" valueKey="profit" valueFormatter={formatCurrency} />
+          <SignedBarChart data={biz.profitByMonth} xKey="month" valueKey="profit" valueFormatter="currency" />
         </ChartCard>
         <ChartCard
           title="Ventas por método de pago"
           data={paymentData}
           columns={[
             { key: "methodLabel", label: "Método" },
-            { key: "total", label: "Total", align: "right", format: (v) => formatCurrencyPrecise(v) },
+            { key: "total", label: "Total", align: "right", format: "currencyPrecise" },
           ]}
           empty="Este estudiante todavía no ha registrado ventas."
         >
@@ -178,7 +177,7 @@ export default async function AdminStudentDetailPage({
             data={paymentData}
             xKey="methodLabel"
             valueKey="total"
-            valueFormatter={formatCurrency}
+            valueFormatter="currency"
             colorKey="method"
             colorMap={PAYMENT_METHOD_COLORS}
             layout="horizontal"
