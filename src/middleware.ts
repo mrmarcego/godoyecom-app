@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 
   // Sin sesión: solo se permite ver páginas públicas (login/registro).
   if (!user) {
-    if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
+    if (pathname.startsWith("/dashboard") || (pathname.startsWith("/admin") && pathname !== "/admin-signup")) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
       return NextResponse.redirect(url);
