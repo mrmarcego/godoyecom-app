@@ -2,17 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { LogOut, LayoutDashboard, Users, Instagram, ShoppingBag, MessageSquare } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { LogoWordmark } from "@/components/Logo";
 import { Avatar } from "@/components/ui";
 import { signOutAction } from "@/lib/actions/auth";
 import { cn } from "@/lib/utils";
 
+// Los Server Components (los layout.tsx de /admin y /dashboard) no pueden
+// pasar un componente de ícono como valor: eso es una función/referencia y
+// rompe el límite Server -> Client. Por eso solo mandan el nombre (string) y
+// este archivo, que ya es "use client", lo resuelve al componente real aquí.
+const ICONS: Record<string, LucideIcon> = {
+  LayoutDashboard,
+  Users,
+  Instagram,
+  ShoppingBag,
+  MessageSquare,
+};
+export type IconKey = keyof typeof ICONS;
+
 export interface NavItem {
   href: string;
   label: string;
-  icon: LucideIcon;
+  icon: IconKey;
 }
 
 function isActive(pathname: string, href: string) {
@@ -45,7 +58,7 @@ export function Shell({
         <nav className="flex-1 px-3 py-4 space-y-1">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
-            const Icon = item.icon;
+            const Icon = ICONS[item.icon];
             return (
               <Link
                 key={item.href}
@@ -107,7 +120,7 @@ export function Shell({
         <nav className="md:hidden fixed bottom-0 inset-x-0 bg-brand-black border-t border-white/10 flex items-stretch z-20">
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
-            const Icon = item.icon;
+            const Icon = ICONS[item.icon];
             return (
               <Link
                 key={item.href}

@@ -1,15 +1,14 @@
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Instagram, ShoppingBag, MessageSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { Shell, type NavItem } from "@/components/Shell";
 
 export const dynamic = "force-dynamic";
 
 const navItems: NavItem[] = [
-  { href: "/dashboard", label: "Resumen", icon: LayoutDashboard },
-  { href: "/dashboard/instagram", label: "Instagram", icon: Instagram },
-  { href: "/dashboard/business", label: "Mi negocio", icon: ShoppingBag },
-  { href: "/dashboard/feedback", label: "Feedback", icon: MessageSquare },
+  { href: "/dashboard", label: "Resumen", icon: "LayoutDashboard" },
+  { href: "/dashboard/instagram", label: "Instagram", icon: "Instagram" },
+  { href: "/dashboard/business", label: "Mi negocio", icon: "ShoppingBag" },
+  { href: "/dashboard/feedback", label: "Feedback", icon: "MessageSquare" },
 ];
 
 export default async function DashboardLayout({

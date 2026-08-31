@@ -1,13 +1,12 @@
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { Shell, type NavItem } from "@/components/Shell";
 
 export const dynamic = "force-dynamic";
 
 const navItems: NavItem[] = [
-  { href: "/admin", label: "Resumen", icon: LayoutDashboard },
-  { href: "/admin/students", label: "Estudiantes", icon: Users },
+  { href: "/admin", label: "Resumen", icon: "LayoutDashboard" },
+  { href: "/admin/students", label: "Estudiantes", icon: "Users" },
 ];
 
 export default async function AdminLayout({
