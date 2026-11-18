@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 const navItems: NavItem[] = [
   { href: "/admin", label: "Resumen", icon: "LayoutDashboard" },
   { href: "/admin/students", label: "Estudiantes", icon: "Users" },
+  { href: "/admin/catalogos", label: "Catálogos", icon: "FileDown" },
 ];
 
 export default async function AdminLayout({
