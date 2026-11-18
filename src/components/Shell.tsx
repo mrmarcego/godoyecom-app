@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, LayoutDashboard, Users, Instagram, ShoppingBag, MessageSquare } from "lucide-react";
+import { LogOut, LayoutDashboard, Users, Instagram, ShoppingBag, MessageSquare, FileDown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { LogoWordmark } from "@/components/Logo";
 import { Avatar } from "@/components/ui";
@@ -19,6 +19,7 @@ const ICONS: Record<string, LucideIcon> = {
   Instagram,
   ShoppingBag,
   MessageSquare,
+  FileDown,
 };
 export type IconKey = keyof typeof ICONS;
 

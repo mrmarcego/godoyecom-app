@@ -9,6 +9,7 @@ const navItems: NavItem[] = [
   { href: "/dashboard/instagram", label: "Instagram", icon: "Instagram" },
   { href: "/dashboard/business", label: "Mi negocio", icon: "ShoppingBag" },
   { href: "/dashboard/feedback", label: "Feedback", icon: "MessageSquare" },
+  { href: "/dashboard/catalogos", label: "Catálogos", icon: "FileDown" },
 ];
 
 export default async function DashboardLayout({
